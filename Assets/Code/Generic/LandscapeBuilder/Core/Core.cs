@@ -17,9 +17,9 @@ namespace Code.Generic.LandscapeBuilder
 
         public void ApplyToStorage(TCell cell, TStorage storage)
         {
-            foreach (var modifier in Modifiers)
+            for (var index = 0; index < Modifiers.Length; index++)
             {
-                modifier.Apply(cell, storage);
+                Modifiers[index].ApplyToStorage(cell, storage);
             }
         }
 

@@ -14,19 +14,19 @@ namespace Code.Generic.LandscapeBuilder.UnityBind
         public GameObject ChunkPrefab;
         public int ViewDistance;
 
-        public Core<Cell, int, Chunk> Core;
+        public Core<Cell, int, Storage> Core;
         private List<Chunk> _refreshingChunks;
         private List<int> _refreshingPositions;
 
         public void Start()
         {
             var modifiers = Array.FindAll(
-                gameObject.GetComponents<IModifier<Cell, Chunk>>(),
+                gameObject.GetComponents<IModifier<Cell, Storage>>(),
                 modifier => ((MonoBehaviour) modifier).enabled);
 
             _chunks = CreateChunks();
 
-            Core = new Core<Cell, int, Chunk>(x => new Cell(), modifiers);
+            Core = new Core<Cell, int, Storage>(x => new Cell(x), modifiers);
 
             _refreshingChunks = new List<Chunk>();
             _refreshingPositions = new List<int>();
@@ -35,7 +35,7 @@ namespace Code.Generic.LandscapeBuilder.UnityBind
         public List<Chunk> CreateChunks()
         {
             var chunks = new List<Chunk>(ViewDistance * 2 + 1);
-            for (var i = -ViewDistance; i < ViewDistance; i++)
+            for (var i = -ViewDistance; i <= ViewDistance; i++)
             {
                 var @object = Instantiate(ChunkPrefab);
                 var chunkComponent = @object.GetComponent<Chunk>();
